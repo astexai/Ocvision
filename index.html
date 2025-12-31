@@ -1,0 +1,537 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>OCVISION | Creative Agency</title>
+      
+      <!-- Fonts -->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+      
+      <!-- Icons -->
+      <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+      
+      <!-- Shared CSS -->
+      <link rel="stylesheet" href="style.css">
+      
+      <style>
+          /* Home Page Specific Styles */
+          .hero {
+              height: 100vh;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: flex-start;
+              padding: 0 var(--padding-inline);
+              position: relative;
+              overflow: hidden;
+              margin-top: 80px;
+          }
+  
+          .hero-bg {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              opacity: 0.3;
+              z-index: -1;
+          }
+          
+          .hero-bg img {
+              height: 100%;
+              width: 100%;
+              object-fit: cover;
+              transform: scale(1.1);
+          }
+  
+          .hero-content {
+              z-index: 2;
+              max-width: 1200px;
+          }
+  
+          .hero-title .line {
+              overflow: hidden;
+              margin-bottom: -1rem;
+          }
+  
+          .hero-title span {
+              display: block;
+              transform: translateY(100%);
+          }
+  
+          .hero p {
+              max-width: 500px;
+              margin: 2rem 0;
+              opacity: 0;
+              transform: translateY(20px);
+          }
+  
+          .hero .btn {
+              opacity: 0;
+              transform: translateY(20px);
+          }
+  
+          /* Services */
+          .services-grid {
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+              gap: 2rem;
+              margin-top: 4rem;
+          }
+  
+          .service-card {
+              background: var(--secondary-color);
+              padding: 3rem;
+              border-radius: 8px;
+              transition: all 0.3s ease;
+              border: 1px solid #333;
+              position: relative;
+              overflow: hidden;
+          }
+  
+          .service-card:hover {
+              border-color: var(--accent-color);
+              transform: translateY(-10px);
+          }
+  
+          .service-card h3 {
+              font-size: 1.5rem;
+              margin-bottom: 1rem;
+          }
+  
+          .service-card i {
+              font-size: 2.5rem;
+              color: var(--accent-color);
+              margin-bottom: 1.5rem;
+              display: block;
+          }
+  
+          /* Portfolio (Horizontal) */
+          .portfolio-container {
+              overflow: hidden;
+              margin-top: 4rem;
+          }
+  
+          .portfolio-wrapper {
+              display: flex;
+              gap: 2rem;
+              width: max-content;
+              padding-left: var(--padding-inline);
+          }
+  
+          .portfolio-item {
+              width: clamp(300px, 40vw, 600px);
+              height: clamp(400px, 50vh, 700px);
+              position: relative;
+              flex-shrink: 0;
+              overflow: hidden;
+              border-radius: 4px;
+          }
+  
+          .portfolio-item img {
+              height: 100%;
+              transition: transform 0.7s ease;
+          }
+  
+          .portfolio-item:hover img {
+              transform: scale(1.1);
+          }
+  
+          .portfolio-info {
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              padding: 1.5rem;
+              background: linear-gradient(to top, black, transparent);
+              width: 100%;
+          }
+  
+          /* About Studio */
+          .about-container {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 4rem;
+              align-items: center;
+          }
+  
+          .about-img {
+              position: relative;
+              height: 600px;
+              overflow: hidden;
+              border-radius: 8px;
+          }
+  
+          .about-img img {
+              height: 120%;
+          }
+  
+          /* Testimonials */
+          .testimonials {
+              text-align: center;
+          }
+  
+          .testimonial-slider {
+              margin-top: 4rem;
+              border-top: 1px solid #333;
+              border-bottom: 1px solid #333;
+          }
+  
+          .testimonial-item {
+              padding: 4rem 2rem;
+          }
+  
+          .testimonial-item p {
+              font-size: clamp(1.2rem, 2vw, 2rem);
+              font-family: var(--font-heading);
+              color: white;
+              max-width: 900px;
+              margin: 0 auto 2rem;
+          }
+  
+          /* Contact */
+          .contact-container {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 4rem;
+          }
+  
+          form {
+              display: flex;
+              flex-direction: column;
+              gap: 1.5rem;
+          }
+  
+          .form-group input, .form-group textarea {
+              width: 100%;
+              background: transparent;
+              border: none;
+              border-bottom: 1px solid #555;
+              padding: 1rem 0;
+              color: white;
+              font-family: var(--font-body);
+              font-size: 1rem;
+          }
+  
+          .form-group input:focus, .form-group textarea:focus {
+              outline: none;
+              border-color: var(--accent-color);
+          }
+  
+          .socials {
+              display: flex;
+              gap: 1rem;
+              margin-top: 1rem;
+          }
+  
+          .socials a {
+              padding: 0.5rem 1rem;
+              border: 1px solid #333;
+              border-radius: 4px;
+              transition: all 0.3s ease;
+          }
+  
+          .socials a:hover {
+              border-color: var(--accent-color);
+              color: var(--accent-color);
+          }
+  
+          /* Responsive */
+          @media (max-width: 768px) {
+              .about-container, .contact-container {
+                  grid-template-columns: 1fr;
+              }
+              
+              .about-img {
+                  height: 400px;
+              }
+              
+              .portfolio-item {
+                  width: 85vw;
+                  height: 500px;
+              }
+              
+              .services-grid {
+                  grid-template-columns: 1fr;
+              }
+          }
+      </style>
+  </head>
+  <body>
+  
+      <!-- Custom Cursor -->
+      <div class="cursor"></div>
+  
+      <!-- Navigation -->
+      <nav>
+          <div class="logo">OCVISION</div>
+          <ul class="nav-links">
+              <li><a href="index.html" class="active">Home</a></li>
+              <li><a href="services.html">Services</a></li>
+              <li><a href="portfolio.html">Work</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="contact.html">Contact</a></li>
+          </ul>
+          <button class="menu-toggle"><i class="ri-menu-4-line"></i></button>
+      </nav>
+  
+      <!-- Mobile Navigation -->
+      <div class="mobile-nav">
+          <button class="close-menu"><i class="ri-close-line"></i></button>
+          <a href="index.html" class="active">Home</a>
+          <a href="services.html">Services</a>
+          <a href="portfolio.html">Work</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+      </div>
+  
+      <!-- Hero Section -->
+      <header id="hero" class="hero">
+          <div class="hero-bg">
+              <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2071&auto=format&fit=crop" alt="Camera Lens Background" data-speed="0.5">
+          </div>
+          <div class="hero-content">
+              <div class="hero-title">
+                  <div class="line"><h1>Vision</h1></div>
+                  <div class="line"><h1>Beyond</h1></div>
+                  <div class="line"><h1>Reality</h1></div>
+              </div>
+              <p>Premium photography & cinematic videography for brands that dare to stand out.</p>
+              <a href="contact.html" class="btn hover-target">Book A Session</a>
+          </div>
+      </header>
+  
+      <!-- Services Section -->
+      <section id="services" class="section-padding">
+          <h2 data-speed="0.1">Our Expertise</h2>
+          <div class="services-grid">
+              <div class="service-card hover-target">
+                  <i class="ri-camera-lens-line"></i>
+                  <h3>Photography</h3>
+                  <p>Fashion, Product, Editorial, and Event photography captured with high-end gear and creative lighting.</p>
+              </div>
+              <div class="service-card hover-target">
+                  <i class="ri-movie-2-line"></i>
+                  <h3>Videography</h3>
+                  <p>Cinematic storytelling, commercials, music videos, and reels designed for the modern digital era.</p>
+              </div>
+              <div class="service-card hover-target">
+                  <i class="ri-edit-circle-line"></i>
+                  <h3>Post-Production</h3>
+                  <p>High-end retouching, color grading, and VFX to bring the raw footage to life.</p>
+              </div>
+          </div>
+      </section>
+  
+      <!-- Portfolio Section (Horizontal Scroll) -->
+      <section id="portfolio" class="section-padding">
+          <h2>Selected Works</h2>
+          <div class="portfolio-container">
+              <div class="portfolio-wrapper">
+                  <!-- Portfolio Item 1 -->
+                  <div class="portfolio-item hover-target">
+                      <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2070&auto=format&fit=crop" alt="Fashion Shoot">
+                      <div class="portfolio-info">
+                          <h3>Neon Nights</h3>
+                          <p>Fashion Editorial</p>
+                      </div>
+                  </div>
+                  <!-- Portfolio Item 2 -->
+                  <div class="portfolio-item hover-target">
+                      <img src="https://images.unsplash.com/photo-1601058268499-e52658b8bb88?q=80&w=1974&auto=format&fit=crop" alt="Product Shoot">
+                      <div class="portfolio-info">
+                          <h3>Luxe Watches</h3>
+                          <p>Product Commercial</p>
+                      </div>
+                  </div>
+                  <!-- Portfolio Item 3 -->
+                  <div class="portfolio-item hover-target">
+                      <img src="https://images.unsplash.com/photo-1533174072545-e8d4aa97edf9?q=80&w=1974&auto=format&fit=crop" alt="Portrait">
+                      <div class="portfolio-info">
+                          <h3>Urban Soul</h3>
+                          <p>Portrait Series</p>
+                      </div>
+                  </div>
+                  <!-- Portfolio Item 4 -->
+                  <div class="portfolio-item hover-target">
+                      <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1664&auto=format&fit=crop" alt="Event">
+                      <div class="portfolio-info">
+                          <h3>The Gala</h3>
+                          <p>Event Coverage</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+  
+      <!-- About Section -->
+      <section id="about" class="section-padding">
+          <div class="about-container">
+              <div class="about-text">
+                  <h2>The Studio</h2>
+                  <p>OCVISION is not just an agency; it's a creative powerhouse. We blend technology with artistry to create visuals that leave a lasting impact.</p>
+                  <br>
+                  <p>Founded by visionaries, driven by passion. We utilize the latest cinema cameras, drones, and lighting setups to ensure every frame is a masterpiece.</p>
+                  <br>
+                  <a href="about.html" class="btn hover-target">Learn More</a>
+              </div>
+              <div class="about-img">
+                  <img src="https://images.unsplash.com/photo-1590935217281-8f102120d683?q=80&w=2070&auto=format&fit=crop" alt="Studio Setup" data-speed="0.8">
+              </div>
+          </div>
+      </section>
+  
+      <!-- Testimonials -->
+      <section id="testimonials" class="section-padding">
+          <div class="testimonials">
+              <h4>Client Love</h4>
+              <div class="testimonial-slider">
+                  <div class="testimonial-item">
+                      <p>"OCVISION transformed our brand identity completely. The visuals were stunning and the team was incredibly professional."</p>
+                      <span>— Sarah Jenkins, CEO of Aura</span>
+                  </div>
+              </div>
+          </div>
+      </section>
+  
+      <!-- Contact Section -->
+      <section id="contact" class="section-padding">
+          <div class="contact-container">
+              <div class="contact-info">
+                  <h2>Let's Create<br>Magic.</h2>
+                  <p>Have a project in mind? Reach out to us.</p>
+                  <br>
+                  <p><strong>Email:</strong> hello@ocvision.com</p>
+                  <p><strong>Phone:</strong> +1 234 567 890</p>
+                  <br>
+                  <div class="socials">
+                      <a href="#" class="hover-target">Instagram</a>
+                      <a href="#" class="hover-target">Twitter</a>
+                      <a href="#" class="hover-target">LinkedIn</a>
+                  </div>
+              </div>
+              <form>
+                  <div class="form-group">
+                      <input type="text" placeholder="Your Name" required class="hover-target">
+                  </div>
+                  <div class="form-group">
+                      <input type="email" placeholder="Your Email" required class="hover-target">
+                  </div>
+                  <div class="form-group">
+                      <textarea rows="4" placeholder="Tell us about your project" class="hover-target"></textarea>
+                  </div>
+                  <button type="submit" class="btn hover-target">Send Request</button>
+              </form>
+          </div>
+      </section>
+  
+      <!-- Footer -->
+      <footer>
+          <div class="footer-content">
+              <div class="footer-logo">
+                  <h2>OCVISION</h2>
+                  <p>Capturing the unseen.</p>
+              </div>
+              <div class="footer-links">
+                  <h4>Sitemap</h4>
+                  <ul>
+                      <li><a href="index.html" class="hover-target">Home</a></li>
+                      <li><a href="services.html" class="hover-target">Services</a></li>
+                      <li><a href="portfolio.html" class="hover-target">Work</a></li>
+                      <li><a href="about.html" class="hover-target">About</a></li>
+                      <li><a href="contact.html" class="hover-target">Contact</a></li>
+                  </ul>
+              </div>
+              <div class="footer-links">
+                  <h4>Services</h4>
+                  <ul>
+                      <li><a href="services.html#wedding" class="hover-target">Wedding Photography</a></li>
+                      <li><a href="services.html#fashion" class="hover-target">Fashion & Product</a></li>
+                      <li><a href="services.html#event" class="hover-target">Event Coverage</a></li>
+                      <li><a href="services.html#commercials" class="hover-target">Commercials & Reels</a></li>
+                  </ul>
+              </div>
+          </div>
+          <div class="footer-bottom">
+              <p>&copy; 2024 OCVISION Agency. All rights reserved.</p>
+              <p>Designed with Passion.</p>
+          </div>
+      </footer>
+  
+      <!-- Scripts -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+      <script src="script.js"></script>
+  
+      <script>
+          // Home Page Specific Animations
+          document.addEventListener('DOMContentLoaded', function() {
+              // Hero Animations
+              const tl = gsap.timeline();
+              
+              tl.to('.hero-title span', {
+                  y: 0,
+                  duration: 1.5,
+                  stagger: 0.2,
+                  ease: "power4.out",
+                  delay: 0.5
+              })
+              .to('.hero p', {
+                  opacity: 1,
+                  y: 0,
+                  duration: 1,
+                  ease: "power2.out"
+              }, "-=1")
+              .to('.hero .btn', {
+                  opacity: 1,
+                  y: 0,
+                  duration: 1,
+                  ease: "power2.out"
+              }, "-=0.8");
+  
+              // Parallax Effect for Hero Image
+              gsap.to('.hero-bg img', {
+                  yPercent: 30,
+                  ease: "none",
+                  scrollTrigger: {
+                      trigger: ".hero",
+                      start: "top top",
+                      end: "bottom top",
+                      scrub: true
+                  }
+              });
+  
+              // Horizontal Scroll for Portfolio
+              let sections = gsap.utils.toArray(".portfolio-item");
+              if (sections.length > 0) {
+                  let scrollTween = gsap.to(sections, {
+                      xPercent: -100 * (sections.length - 1),
+                      ease: "none",
+                      scrollTrigger: {
+                          trigger: "#portfolio",
+                          pin: true,
+                          scrub: 1,
+                          end: "+=3000",
+                          snap: 1 / (sections.length - 1)
+                      }
+                  });
+              }
+  
+              // About Image Parallax
+              gsap.to('.about-img img', {
+                  yPercent: -20,
+                  ease: "none",
+                  scrollTrigger: {
+                      trigger: '.about-container',
+                      start: 'top bottom',
+                      end: 'bottom top',
+                      scrub: true
+                  }
+              });
+          });
+      </script>
+  </body>
+  </html>

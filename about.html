@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | OCVISION</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* About Page Specific Styles */
+        .page-header {
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            padding: 0 var(--padding-inline);
+            position: relative;
+            margin-top: 80px;
+        }
+
+        .page-title h1 {
+            font-size: clamp(3rem, 12vw, 9rem);
+            line-height: 0.9;
+            /* FIX: Hide initially to prevent flash */
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .page-title span {
+            display: block;
+            color: var(--accent-color);
+            font-size: clamp(1rem, 3vw, 2rem);
+            margin-bottom: 1rem;
+            font-family: var(--font-body);
+            font-weight: 300;
+            letter-spacing: 2px;
+            /* FIX: Hide initially to prevent flash */
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Brand Story */
+        .story-section {
+            padding: 4rem var(--padding-inline);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .story-text h2 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            margin-bottom: 2rem;
+        }
+
+        .story-image {
+            height: 600px;
+            overflow: hidden;
+            border-radius: 8px;
+            position: relative;
+        }
+        
+        .story-image img {
+            height: 120%;
+        }
+
+        /* Numbers (Stats) */
+        .stats-section {
+            padding: 6rem var(--padding-inline);
+            background: var(--secondary-color);
+            margin: 4rem 0;
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+        }
+
+        .stat-item p {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            color: white;
+        }
+
+        /* Mission & Expertise */
+        .mission-section {
+            padding: 6rem var(--padding-inline);
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+        }
+
+        .mission-title h2 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            position: sticky;
+            top: 100px;
+        }
+
+        .expertise-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .expertise-item {
+            padding: 2rem;
+            border: 1px solid #333;
+            border-radius: 8px;
+            transition: all 0.4s ease;
+        }
+
+        .expertise-item:hover {
+            border-color: var(--accent-color);
+            background: #121212;
+            transform: translateX(10px);
+        }
+
+        .expertise-item h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 6rem var(--padding-inline);
+        }
+
+        .team-header {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+        .team-header h2 { font-size: clamp(2rem, 5vw, 4rem); }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .team-img {
+            height: 450px;
+            overflow: hidden;
+            background: #222;
+        }
+
+        .team-img img {
+            height: 100%;
+            transition: transform 0.6s ease;
+            filter: grayscale(100%);
+        }
+
+        .team-card:hover .team-img img {
+            transform: scale(1.1);
+            filter: grayscale(0%);
+        }
+
+        .team-info {
+            padding: 1.5rem 0;
+        }
+
+        .team-info h4 { font-size: 1.2rem; color: white; margin-bottom: 0.2rem; }
+        .team-info p { font-size: 0.9rem; color: var(--accent-color); font-weight: 600; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .story-section, .mission-section { grid-template-columns: 1fr; }
+            .story-image { height: 400px; }
+            .mission-title h2 { position: static; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .team-grid { grid-template-columns: 1fr; }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">OCVISION</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="portfolio.html">Work</a></li>
+            <li><a href="about.html" class="active">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <button class="menu-toggle"><i class="ri-menu-4-line"></i></button>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav">
+        <button class="close-menu"><i class="ri-close-line"></i></button>
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="portfolio.html">Work</a>
+        <a href="about.html" class="active">About</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="page-title">
+            <span>WHO WE ARE</span>
+            <h1 class="reveal-text">Behind<br>The Lens</h1>
+        </div>
+    </header>
+
+    <!-- Brand Story & Vision -->
+    <section class="story-section">
+        <div class="story-image">
+            <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2070&auto=format&fit=crop" alt="Photographer in Action" data-speed="0.8">
+        </div>
+        <div class="story-text">
+            <h2>The Story</h2>
+            <p>OCVISION began with a simple idea: that photography and videography should do more than just record a moment—they should capture a feeling.</p>
+            <br>
+            <p>What started as a small passion project has evolved into a full-scale creative agency. We believe in the power of visual storytelling to transform brands. Our vision is to bridge the gap between technical precision and artistic chaos, delivering results that are not just seen, but felt.</p>
+            <br>
+            <p style="color: white; font-weight: 500;">"We don't just take pictures; we craft legacies."</p>
+        </div>
+    </section>
+
+    <!-- OCVISION In Numbers -->
+    <section class="stats-section" id="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3><span class="counter" data-target="2">0</span>+</h3>
+                <p>Years Experience</p>
+            </div>
+            <div class="stat-item">
+                <h3><span class="counter" data-target="200">0</span>+</h3>
+                <p>Projects Completed</p>
+            </div>
+            <div class="stat-item">
+                <h3><span class="counter" data-target="12">0</span>+</h3>
+                <p>Global Partners</p>
+            </div>
+            <div class="stat-item">
+                <h3><span class="counter" data-target="100">0</span>+</h3>
+                <p>Happy Clients</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Expertise -->
+    <section class="mission-section">
+        <div class="mission-title">
+            <h2>Our<br>Mission</h2>
+            <p style="margin-top: 1rem;">To redefine visual aesthetics for the modern digital landscape.</p>
+        </div>
+        <div class="expertise-list">
+            <div class="expertise-item hover-target">
+                <h4>01. Creative Direction</h4>
+                <p>We don't just shoot; we plan. From mood boards to location scouting, we define the visual path before the camera rolls.</p>
+            </div>
+            <div class="expertise-item hover-target">
+                <h4>02. High-End Production</h4>
+                <p>Equipped with cinema-grade cameras, drones, and lighting to handle everything from commercial sets to rugged outdoor shoots.</p>
+            </div>
+            <div class="expertise-item hover-target">
+                <h4>03. Brand Strategy</h4>
+                <p>Ensuring your visuals align perfectly with your market positioning and brand voice.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team / Founder Section -->
+    <section class="team-section">
+        <div class="team-header">
+            <h2>The Visionaries</h2>
+            <p>Meet the minds behind the magic.</p>
+        </div>
+        <div class="team-grid">
+            <!-- Founder -->
+            <div class="team-card hover-target">
+                <div class="team-img">
+                    <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=2070&auto=format&fit=crop" alt="Founder">
+                </div>
+                <div class="team-info">
+                    <h4>Alex Mercer</h4>
+                    <p>Founder & Lead Director</p>
+                </div>
+            </div>
+            <!-- Team Member 2 -->
+            <div class="team-card hover-target">
+                <div class="team-img">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1976&auto=format&fit=crop" alt="Creative Director">
+                </div>
+                <div class="team-info">
+                    <h4>Elena Rhoades</h4>
+                    <p>Creative Director</p>
+                </div>
+            </div>
+            <!-- Team Member 3 -->
+            <div class="team-card hover-target">
+                <div class="team-img">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop" alt="Lead Editor">
+                </div>
+                <div class="team-info">
+                    <h4>David Kim</h4>
+                    <p>Head of Post-Production</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>OCVISION</h2>
+                <p>Ready to start your project?</p>
+            </div>
+            <div class="footer-links">
+                <h4>Sitemap</h4>
+                <ul>
+                    <li><a href="index.html" class="hover-target">Home</a></li>
+                    <li><a href="services.html" class="hover-target">Services</a></li>
+                    <li><a href="portfolio.html" class="hover-target">Work</a></li>
+                    <li><a href="about.html" class="hover-target">About</a></li>
+                    <li><a href="contact.html" class="hover-target">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="services.html#wedding" class="hover-target">Wedding Photography</a></li>
+                    <li><a href="services.html#fashion" class="hover-target">Fashion & Product</a></li>
+                    <li><a href="services.html#event" class="hover-target">Event Coverage</a></li>
+                    <li><a href="services.html#commercials" class="hover-target">Commercials & Reels</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 OCVISION Agency. All rights reserved.</p>
+            <p>Designed with Passion.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        // About Page Specific Animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // FIX: Use 'to' instead of 'from' for title
+            gsap.to(".page-title h1", {
+                y: 0,
+                opacity: 1,
+                duration: 1.5,
+                ease: "power4.out",
+                delay: 0.2
+            });
+            
+            gsap.to(".page-title span", {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                delay: 0.8
+            });
+
+            // Parallax Image in Story
+            gsap.to('.story-image img', {
+                yPercent: 20,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: '.story-section',
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+
+            // Team Cards Stagger Fade In
+            gsap.from(".team-card", {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                scrollTrigger: {
+                    trigger: ".team-section",
+                    start: "top 70%"
+                }
+            });
+        });
+    </script>
+</body>
+</html>

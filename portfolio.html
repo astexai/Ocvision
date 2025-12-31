@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | OCVISION</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* Portfolio Page Specific Styles */
+        .portfolio-header {
+            padding: 10rem var(--padding-inline) 4rem;
+            text-align: center;
+            margin-top: 80px;
+        }
+        
+        .portfolio-header h1 {
+            font-size: clamp(3rem, 10vw, 8rem);
+            margin-bottom: 1rem;
+        }
+        
+        .portfolio-header p {
+            max-width: 600px;
+            margin: 0 auto;
+            color: #888;
+        }
+
+        /* Photo Gallery (Masonry) */
+        .gallery-section {
+            padding: 0 var(--padding-inline) 8rem;
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid #333;
+            color: #888;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            border-color: var(--accent-color);
+            color: white;
+            background: rgba(255, 77, 0, 0.1);
+        }
+
+        /* Grid */
+        .gallery-grid {
+            column-count: 3;
+            column-gap: 2rem;
+        }
+
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 2rem;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .gallery-item.hide {
+            display: none;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            border-radius: 8px;
+            transition: transform 0.7s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .overlay {
+            opacity: 1;
+        }
+
+        .overlay h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .overlay p { font-size: 0.8rem; color: var(--accent-color); text-transform: uppercase; letter-spacing: 1px;}
+
+        /* Video Showcase */
+        .video-section {
+            background: var(--secondary-color);
+            padding: 6rem var(--padding-inline);
+            border-top: 1px solid #333;
+        }
+
+        .section-title {
+            margin-bottom: 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .video-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            background: #000;
+        }
+
+        .video-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            transition: opacity 0.4s;
+        }
+
+        .video-card:hover video {
+            opacity: 1;
+        }
+
+        .play-btn {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: white;
+            pointer-events: none;
+            transition: transform 0.3s;
+            mix-blend-mode: overlay;
+        }
+
+        .video-card:hover .play-btn {
+            transform: translate(-50%, -50%) scale(1.2);
+            opacity: 0;
+        }
+
+        .video-info {
+            position: absolute;
+            bottom: 1rem;
+            left: 1.5rem;
+            z-index: 2;
+        }
+
+        /* Lightbox Modal */
+        .lightbox {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 4px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            background: none;
+            border: none;
+            z-index: 1001;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .gallery-grid { column-count: 2; }
+            .video-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-grid { column-count: 1; }
+            .video-grid { grid-template-columns: 1fr; }
+            .section-title { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .portfolio-header { padding: 8rem var(--padding-inline) 3rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .filter-tabs { gap: 0.5rem; }
+            .filter-btn { padding: 0.6rem 1.2rem; font-size: 0.7rem; }
+            .video-grid { gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">OCVISION</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="portfolio.html" class="active">Work</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <button class="menu-toggle"><i class="ri-menu-4-line"></i></button>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav">
+        <button class="close-menu"><i class="ri-close-line"></i></button>
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="portfolio.html" class="active">Work</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <!-- Header -->
+    <header class="portfolio-header">
+        <h1 class="reveal-text">Visual<br>Archive</h1>
+        <p>A curated collection of our finest moments captured in time.</p>
+    </header>
+
+    <!-- Photo Gallery -->
+    <section class="gallery-section">
+        
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <button class="filter-btn active hover-target" data-filter="all">All Work</button>
+            <button class="filter-btn hover-target" data-filter="fashion">Fashion</button>
+            <button class="filter-btn hover-target" data-filter="product">Product</button>
+            <button class="filter-btn hover-target" data-filter="nature">Nature / Event</button>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="gallery-grid">
+            
+            <!-- Item 1: Fashion -->
+            <div class="gallery-item fashion hover-target">
+                <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1888&auto=format&fit=crop" alt="Fashion Model">
+                <div class="overlay">
+                    <h3>Vogue Street</h3>
+                    <p>Fashion</p>
+                </div>
+            </div>
+
+            <!-- Item 2: Product -->
+            <div class="gallery-item product hover-target">
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1999&auto=format&fit=crop" alt="Watch">
+                <div class="overlay">
+                    <h3>Timeless Luxury</h3>
+                    <p>Product</p>
+                </div>
+            </div>
+
+            <!-- Item 3: Nature -->
+            <div class="gallery-item nature hover-target">
+                <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1974&auto=format&fit=crop" alt="Landscape">
+                <div class="overlay">
+                    <h3>Misty Mornings</h3>
+                    <p>Nature</p>
+                </div>
+            </div>
+
+            <!-- Item 4: Fashion -->
+            <div class="gallery-item fashion hover-target">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop" alt="Portrait">
+                <div class="overlay">
+                    <h3>Neon Gaze</h3>
+                    <p>Fashion</p>
+                </div>
+            </div>
+
+            <!-- Item 5: Product -->
+            <div class="gallery-item product hover-target">
+                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=2070&auto=format&fit=crop" alt="Headphones">
+                <div class="overlay">
+                    <h3>Sonic Boom</h3>
+                    <p>Product</p>
+                </div>
+            </div>
+
+            <!-- Item 6: Event/Nature -->
+            <div class="gallery-item nature hover-target">
+                <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070&auto=format&fit=crop" alt="Concert">
+                <div class="overlay">
+                    <h3>The Crowd</h3>
+                    <p>Event</p>
+                </div>
+            </div>
+
+            <!-- Item 7: Fashion -->
+            <div class="gallery-item fashion hover-target">
+                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070&auto=format&fit=crop" alt="Fashion Coat">
+                <div class="overlay">
+                    <h3>Winter Collection</h3>
+                    <p>Fashion</p>
+                </div>
+            </div>
+
+            <!-- Item 8: Product -->
+            <div class="gallery-item product hover-target">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2070&auto=format&fit=crop" alt="Sneaker">
+                <div class="overlay">
+                    <h3>Urban Steps</h3>
+                    <p>Product</p>
+                </div>
+            </div>
+
+             <!-- Item 9: Nature -->
+             <div class="gallery-item nature hover-target">
+                <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop" alt="Mountains">
+                <div class="overlay">
+                    <h3>High Peaks</h3>
+                    <p>Nature</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Video Showcase -->
+    <section class="video-section">
+        <div class="section-title">
+            <h2>Motion<br>Pictures</h2>
+            <p>Hover to play preview.</p>
+        </div>
+
+        <div class="video-grid">
+            
+            <!-- Video 1 -->
+            <div class="video-card hover-target">
+                <video loop muted poster="https://images.unsplash.com/photo-1536240478700-b869070f9279?q=80&w=2000&auto=format&fit=crop">
+                    <source src="https://v4.cdnpk.net/videvo_files/video/free/2019-11/large_watermarked/190301_1_25_11_preview.mp4" type="video/mp4">
+                </video>
+                <i class="ri-play-circle-line play-btn"></i>
+                <div class="video-info">
+                    <h4>Cinematic Travel</h4>
+                    <p style="color:var(--accent-color); font-size: 0.8rem;">Travel / Vlog</p>
+                </div>
+            </div>
+
+            <!-- Video 2 -->
+            <div class="video-card hover-target">
+                <video loop muted poster="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070&auto=format&fit=crop">
+                    <source src="https://v4.cdnpk.net/videvo_files/video/free/2014-12/large_watermarked/Raindrops_Macro2_preview.mp4" type="video/mp4">
+                </video>
+                <i class="ri-play-circle-line play-btn"></i>
+                <div class="video-info">
+                    <h4>Macro Details</h4>
+                    <p style="color:var(--accent-color); font-size: 0.8rem;">B-Roll / Texture</p>
+                </div>
+            </div>
+
+            <!-- Video 3 -->
+            <div class="video-card hover-target">
+                <video loop muted poster="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=2070&auto=format&fit=crop">
+                    <source src="https://v4.cdnpk.net/videvo_files/video/free/2015-08/large_watermarked/Crowd_Cheering_preview.mp4" type="video/mp4">
+                </video>
+                <i class="ri-play-circle-line play-btn"></i>
+                <div class="video-info">
+                    <h4>Music Festival</h4>
+                    <p style="color:var(--accent-color); font-size: 0.8rem;">Event Coverage</p>
+                </div>
+            </div>
+
+            <!-- Video 4 -->
+            <div class="video-card hover-target">
+                <video loop muted poster="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=2070&auto=format&fit=crop">
+                    <source src="https://v4.cdnpk.net/videvo_files/video/free/2019-09/large_watermarked/190828_27_Supermarket_preview.mp4" type="video/mp4">
+                </video>
+                <i class="ri-play-circle-line play-btn"></i>
+                <div class="video-info">
+                    <h4>Urban Life</h4>
+                    <p style="color:var(--accent-color); font-size: 0.8rem;">Documentary</p>
+                </div>
+            </div>
+
+             <!-- Video 5 -->
+             <div class="video-card hover-target">
+                <video loop muted poster="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=2070&auto=format&fit=crop">
+                    <source src="https://v4.cdnpk.net/videvo_files/video/free/2013-08/large_watermarked/hd0992_preview.mp4" type="video/mp4">
+                </video>
+                <i class="ri-play-circle-line play-btn"></i>
+                <div class="video-info">
+                    <h4>Studio Session</h4>
+                    <p style="color:var(--accent-color); font-size: 0.8rem;">Music Video</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="close-lightbox hover-target">&times;</button>
+        <img src="" alt="Full Screen View">
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>OCVISION</h2>
+                <p>Capturing the unseen.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Sitemap</h4>
+                <ul>
+                    <li><a href="index.html" class="hover-target">Home</a></li>
+                    <li><a href="services.html" class="hover-target">Services</a></li>
+                    <li><a href="portfolio.html" class="hover-target">Work</a></li>
+                    <li><a href="about.html" class="hover-target">About</a></li>
+                    <li><a href="contact.html" class="hover-target">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="portfolio.html" data-filter="fashion" class="hover-target filter-link">Fashion</a></li>
+                    <li><a href="portfolio.html" data-filter="product" class="hover-target filter-link">Product</a></li>
+                    <li><a href="portfolio.html" data-filter="nature" class="hover-target filter-link">Nature & Events</a></li>
+                    <li><a href="#video-showcase" class="hover-target">Video Portfolio</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 OCVISION Agency. All rights reserved.</p>
+            <p>Designed with Passion.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        // Portfolio Page Specific Animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Header Animation
+            gsap.from(".portfolio-header h1", {
+                y: 100, 
+                opacity: 0, 
+                duration: 1.2, 
+                ease: "power4.out"
+            });
+
+            // Stagger Animation for Gallery on Load
+            gsap.from(".gallery-item", {
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: ".gallery-grid",
+                    start: "top 85%"
+                }
+            });
+
+            // Lightbox Logic
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = lightbox.querySelector('img');
+            const closeLightbox = document.querySelector('.close-lightbox');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            galleryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const imgSrc = item.querySelector('img').src;
+                    lightboxImg.src = imgSrc;
+                    lightbox.classList.add('open');
+                    lenis.stop();
+                });
+            });
+
+            closeLightbox.addEventListener('click', () => {
+                lightbox.classList.remove('open');
+                lenis.start();
+            });
+
+            lightbox.addEventListener('click', (e) => {
+                if(e.target === lightbox) {
+                    lightbox.classList.remove('open');
+                    lenis.start();
+                }
+            });
+
+            // Filter links in footer
+            const filterLinks = document.querySelectorAll('.filter-link');
+            filterLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const filterValue = link.getAttribute('data-filter');
+                    
+                    // Update active button
+                    document.querySelectorAll('.filter-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                        if(btn.getAttribute('data-filter') === filterValue) {
+                            btn.classList.add('active');
+                        }
+                    });
+                    
+                    // Filter gallery items
+                    galleryItems.forEach(item => {
+                        if (filterValue === 'all' || item.classList.contains(filterValue)) {
+                            item.classList.remove('hide');
+                            gsap.fromTo(item, {opacity: 0, scale: 0.9}, {
+                                opacity: 1, 
+                                scale: 1, 
+                                duration: 0.5,
+                                ease: "power2.out"
+                            });
+                        } else {
+                            item.classList.add('hide');
+                        }
+                    });
+                    
+                    // Scroll to gallery section
+                    document.querySelector('.gallery-section').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services | OCVISION</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* Services Page Specific Styles */
+        .services-header {
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 var(--padding-inline);
+            margin-top: 80px;
+        }
+
+        .services-header h1 {
+            font-size: clamp(3rem, 10vw, 8rem);
+            line-height: 1;
+            /* FIX: Hide initially to prevent flash */
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .services-header p {
+            max-width: 600px;
+            margin: 1.5rem auto 0;
+            font-size: 1.1rem;
+            color: #888;
+            /* FIX: Hide initially to prevent flash */
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Service Cards (Alternating) */
+        .services-container {
+            padding-bottom: 8rem;
+        }
+
+        .service-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            padding: 6rem var(--padding-inline);
+            align-items: center;
+            border-top: 1px solid #222;
+        }
+
+        .service-row.reverse {
+            direction: rtl;
+        }
+        
+        .service-row.reverse .service-info {
+            direction: ltr;
+        }
+
+        /* The 3D Image Wrapper */
+        .service-img-wrapper {
+            height: 500px;
+            width: 100%;
+            perspective: 1000px;
+        }
+
+        .service-img {
+            width: 100%;
+            height: 100%;
+            background-color: #222;
+            border-radius: 12px;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            will-change: transform;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        /* Info Styling */
+        .service-info {
+            padding: 2rem;
+        }
+
+        .service-number {
+            font-family: var(--font-heading);
+            font-size: 4rem;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--accent-color);
+            opacity: 0.5;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .service-info h2 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-info p {
+            font-size: 1rem;
+            color: #bbb;
+            margin-bottom: 1rem;
+            max-width: 90%;
+        }
+
+        .feature-list {
+            margin: 1.5rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .feature-tag {
+            font-size: 0.8rem;
+            background: #222;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            color: #fff;
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+        }
+
+        .feature-tag:hover {
+            border-color: var(--accent-color);
+            background: rgba(255, 77, 0, 0.1);
+        }
+
+        /* Footer CTA */
+        .footer-cta {
+            text-align: center;
+            padding: 8rem var(--padding-inline);
+            background: linear-gradient(to top, var(--secondary-color), var(--bg-color));
+        }
+        
+        .footer-cta h2 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            margin-bottom: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .service-row, .service-row.reverse {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                direction: ltr;
+            }
+            
+            .service-img-wrapper {
+                height: 350px;
+            }
+            
+            .service-info {
+                padding: 1rem 0;
+            }
+            
+            .services-header {
+                height: 50vh;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .service-img-wrapper {
+                height: 250px;
+            }
+            
+            .feature-list {
+                gap: 0.5rem;
+            }
+            
+            .feature-tag {
+                font-size: 0.7rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">OCVISION</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html" class="active">Services</a></li>
+            <li><a href="portfolio.html">Work</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <button class="menu-toggle"><i class="ri-menu-4-line"></i></button>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav">
+        <button class="close-menu"><i class="ri-close-line"></i></button>
+        <a href="index.html">Home</a>
+        <a href="services.html" class="active">Services</a>
+        <a href="portfolio.html">Work</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <!-- Header -->
+    <header class="services-header">
+        <div>
+            <h1 class="reveal-text">What We<br>Create</h1>
+            <p>Comprehensive visual solutions tailored for every occasion.</p>
+        </div>
+    </header>
+
+    <!-- Services List -->
+    <section class="services-container">
+        
+        <!-- Service 1: Wedding -->
+        <div class="service-row" id="wedding">
+            <div class="service-img-wrapper">
+                <div class="service-img hover-3d" data-bg="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop" alt="Wedding Photography">
+                </div>
+            </div>
+            <div class="service-info">
+                <span class="service-number">01</span>
+                <h2>Wedding Photography</h2>
+                <p>We capture love in its purest form. Our cinematic approach ensures your special day looks like a movie, preserving candid emotions and grand moments alike.</p>
+                <div class="feature-list">
+                    <span class="feature-tag">Candid</span>
+                    <span class="feature-tag">Cinematic Video</span>
+                    <span class="feature-tag">Drone Shots</span>
+                    <span class="feature-tag">Pre-Wedding</span>
+                </div>
+                <a href="contact.html" class="btn-outline hover-target">Book Wedding Dates</a>
+            </div>
+        </div>
+
+        <!-- Service 2: Fashion / Product (Reverse Layout) -->
+        <div class="service-row reverse" id="fashion">
+            <div class="service-img-wrapper">
+                <div class="service-img hover-3d">
+                    <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070&auto=format&fit=crop" alt="Fashion Shoot">
+                </div>
+            </div>
+            <div class="service-info">
+                <span class="service-number">02</span>
+                <h2>Fashion & Product</h2>
+                <p>Elevate your brand with high-fidelity visuals. Whether it's a street-style editorial or a studio product shoot, we focus on lighting, texture, and brand aesthetics.</p>
+                <div class="feature-list">
+                    <span class="feature-tag">Lookbooks</span>
+                    <span class="feature-tag">E-Commerce</span>
+                    <span class="feature-tag">High-End Retouching</span>
+                    <span class="feature-tag">Studio Lighting</span>
+                </div>
+                <a href="contact.html" class="btn-outline hover-target">Request Lookbook</a>
+            </div>
+        </div>
+
+        <!-- Service 3: Event Coverage -->
+        <div class="service-row" id="event">
+            <div class="service-img-wrapper">
+                <div class="service-img hover-3d">
+                    <img src="https://images.unsplash.com/photo-1505236858219-8359eb29e329?q=80&w=2162&auto=format&fit=crop" alt="Event Coverage">
+                </div>
+            </div>
+            <div class="service-info">
+                <span class="service-number">03</span>
+                <h2>Event Coverage</h2>
+                <p>From corporate summits to music festivals, we document the energy of the crowd. Our team operates discreetly to capture the vibe without interrupting the flow.</p>
+                <div class="feature-list">
+                    <span class="feature-tag">Corporate</span>
+                    <span class="feature-tag">Concerts</span>
+                    <span class="feature-tag">Live Streaming</span>
+                    <span class="feature-tag">Same-Day Edit</span>
+                </div>
+                <a href="contact.html" class="btn-outline hover-target">Get Event Quote</a>
+            </div>
+        </div>
+
+        <!-- Service 4: Reel / Ad Shoot (Reverse Layout) -->
+        <div class="service-row reverse" id="commercials">
+            <div class="service-img-wrapper">
+                <div class="service-img hover-3d">
+                    <img src="https://images.unsplash.com/photo-1535016120720-40c6874c3b1c?q=80&w=2064&auto=format&fit=crop" alt="Reels and Ads">
+                </div>
+            </div>
+            <div class="service-info">
+                <span class="service-number">04</span>
+                <h2>Reels & Commercials</h2>
+                <p>Content that converts. We specialize in short-form vertical content for social media and high-production commercials for TV and digital ads.</p>
+                <div class="feature-list">
+                    <span class="feature-tag">Instagram Reels</span>
+                    <span class="feature-tag">TVC</span>
+                    <span class="feature-tag">Scriptwriting</span>
+                    <span class="feature-tag">Motion Graphics</span>
+                </div>
+                <a href="contact.html" class="btn-outline hover-target">Start A Project</a>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Footer CTA -->
+    <section class="footer-cta">
+        <p style="color: var(--accent-color); font-weight: 600; margin-bottom: 1rem;">READY?</p>
+        <h2>Let's Make<br>History</h2>
+        <a href="contact.html" class="btn-outline hover-target" style="border-color: var(--accent-color); color: var(--accent-color);">Contact Us Now</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>OCVISION</h2>
+                <p>Ready to start your project?</p>
+            </div>
+            <div class="footer-links">
+                <h4>Sitemap</h4>
+                <ul>
+                    <li><a href="index.html" class="hover-target">Home</a></li>
+                    <li><a href="services.html" class="hover-target">Services</a></li>
+                    <li><a href="portfolio.html" class="hover-target">Work</a></li>
+                    <li><a href="about.html" class="hover-target">About</a></li>
+                    <li><a href="contact.html" class="hover-target">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="services.html#wedding" class="hover-target">Wedding Photography</a></li>
+                    <li><a href="services.html#fashion" class="hover-target">Fashion & Product</a></li>
+                    <li><a href="services.html#event" class="hover-target">Event Coverage</a></li>
+                    <li><a href="services.html#commercials" class="hover-target">Commercials & Reels</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 OCVISION Agency. All rights reserved.</p>
+            <p>Designed with Passion.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        // Services Page Specific Animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // FIX: Use 'to' instead of 'from' because we hid them in CSS
+            gsap.to(".services-header h1", {
+                y: 0,
+                opacity: 1,
+                duration: 1.5,
+                ease: "power4.out",
+                delay: 0.2
+            });
+            
+            gsap.to(".services-header p", {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                delay: 0.8
+            });
+
+            // Scroll Reveal for Service Rows
+            gsap.utils.toArray('.service-row').forEach(row => {
+                gsap.from(row.querySelector('.service-img'), {
+                    opacity: 0,
+                    scale: 0.8,
+                    duration: 1,
+                    scrollTrigger: {
+                        trigger: row,
+                        start: "top 80%",
+                    }
+                });
+                
+                gsap.from(row.querySelector('.service-info'), {
+                    x: 50,
+                    opacity: 0,
+                    duration: 1,
+                    scrollTrigger: {
+                        trigger: row,
+                        start: "top 80%",
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
