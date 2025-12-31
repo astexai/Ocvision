@@ -27,12 +27,22 @@
         .portfolio-header h1 {
             font-size: clamp(3rem, 10vw, 8rem);
             margin-bottom: 1rem;
+            
+            /* FIX: Hide initially to prevent flash/conflict */
+            opacity: 0; 
+            transform: translateY(50px);
+            visibility: hidden; /* Ensures it's not clickable/selectable until anim starts */
         }
         
         .portfolio-header p {
             max-width: 600px;
             margin: 0 auto;
             color: #888;
+            
+            /* FIX: Hide initially */
+            opacity: 0;
+            transform: translateY(20px);
+            visibility: hidden;
         }
 
         /* Photo Gallery (Masonry) */
@@ -493,12 +503,26 @@
     <script>
         // Portfolio Page Specific Animations
         document.addEventListener('DOMContentLoaded', function() {
-            // Header Animation
-            gsap.from(".portfolio-header h1", {
-                y: 100, 
-                opacity: 0, 
+            
+            // FIX: Use 'to' with 'autoAlpha' AND 'overwrite: true'
+            // This ensures we kill any conflicting global animations on this element
+            gsap.to(".portfolio-header h1", {
+                y: 0, 
+                opacity: 1,
+                autoAlpha: 1,
                 duration: 1.2, 
-                ease: "power4.out"
+                ease: "power4.out",
+                overwrite: true // IMPORTANT: Stops global script from fighting this
+            });
+            
+            gsap.to(".portfolio-header p", {
+                y: 0, 
+                opacity: 1, 
+                autoAlpha: 1,
+                duration: 1, 
+                delay: 0.5,
+                ease: "power2.out",
+                overwrite: true // IMPORTANT: Stops global script from fighting this
             });
 
             // Stagger Animation for Gallery on Load
